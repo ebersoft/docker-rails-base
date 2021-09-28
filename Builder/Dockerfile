@@ -21,7 +21,7 @@ RUN yarn install --frozen-lockfile
 # Install standard gems
 COPY Gemfile* /app/
 RUN bundle config --local frozen 1 && \
-    bundle install -j4 --retry 3
+    bundle install -j4 --retry 6
 
 #### ONBUILD: Add triggers to the image, executed later while building a child image
 
