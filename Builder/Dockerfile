@@ -1,5 +1,5 @@
 # syntax = docker/dockerfile:1.0-experimental
-FROM ruby:3.0.2-alpine
+FROM ruby:3.0.3-alpine
 LABEL maintainer="georg@ledermann.dev"
 
 # Add basic packages
@@ -31,8 +31,8 @@ ONBUILD RUN bundle config --local without 'development test' && \
             bundle install -j4 --retry 3 && \
             # Remove unneeded gems
             bundle clean --force && \
-            # Remove unneeded files from installed gems (cached *.gem, *.o, *.c)
-            rm -rf /usr/local/bundle/cache/*.gem && \
+            # Remove unneeded files from installed gems (cache, *.o, *.c)
+            rm -rf /usr/local/bundle/cache && \
             find /usr/local/bundle/gems/ -name "*.c" -delete && \
             find /usr/local/bundle/gems/ -name "*.o" -delete
 
