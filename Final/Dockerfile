@@ -1,11 +1,11 @@
-FROM ruby:3.0.3-alpine
+FROM ruby:3.0.3
 LABEL maintainer="georg@ledermann.dev"
 
 # Add basic packages
-RUN apk add --no-cache \
-      postgresql-client \
+RUN apt-get install \
       tzdata \
-      file
+      file && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt
 
 # Configure Rails
 ENV RAILS_LOG_TO_STDOUT true
@@ -29,8 +29,8 @@ ONBUILD ENV COMMIT_TIME ${COMMIT_TIME}
 ONBUILD ENV COMMIT_VERSION ${COMMIT_VERSION}
 
 # Add user
-ONBUILD RUN addgroup -g 1000 -S app && \
-            adduser -u 1000 -S app -G app
+ONBUILD RUN addgroup --gid 1000 app && \
+            adduser -uid 1000 --system --disabled-login app
 
 # Copy app with gems from former build stage
 ONBUILD COPY --from=Builder --chown=app:app /usr/local/bundle/ /usr/local/bundle/
