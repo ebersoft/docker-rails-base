@@ -1,5 +1,5 @@
 FROM ruby:3.0.3
-LABEL maintainer="georg@ledermann.dev"
+LABEL maintainer="mail@ebersoft.de"
 
 # Add basic packages
 RUN apt-get install \

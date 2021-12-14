@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.0-experimental
 FROM ruby:3.0.3
-LABEL maintainer="georg@ledermann.dev"
+LABEL maintainer="mail@ebersoft.de"
 
 # NodeJS (https://github.com/nodejs/docker-node/blob/main/14/bullseye/Dockerfile)
 
@@ -65,16 +65,15 @@ RUN set -ex \
 
 # Add basic packages
 RUN apt-get update -qq && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends imagemagick libvips libvips-dev libvips-tools libpq-dev && \
-    rm -rf /var/lib/apt/lists/* /var/cache/apt
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends imagemagick libvips libvips-dev libvips-tools libpq-dev poppler-utils ffmpeg
 
 WORKDIR /app
 
-# Install standard Node modules
+# # Install standard Node modules
 COPY package.json yarn.lock /app/
 RUN yarn install
 
-# Install standard gems
+# # Install standard gems
 COPY Gemfile* /app/
 RUN bundle config --local frozen 1 && \
     bundle install -j4 --retry 6
